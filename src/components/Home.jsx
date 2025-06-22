@@ -99,9 +99,10 @@ const Home = () => {
             <button className="home-action-btn" onClick={() => navigate('/report-lost')}>
     Report Lost Item
   </button>
-          <button className="home-action-btn">Report Found Item</button>
-        </div>
-
+          <button className="home-action-btn" onClick={() => navigate('/report-found')}>
+  Report Found Item
+</button>
+</div>
         {/* Latest Lost & Found Slider */}
         <div className="home-slider-section">
           <h3>Latest Lost & Found</h3>
