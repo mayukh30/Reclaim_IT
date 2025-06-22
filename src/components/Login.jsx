@@ -1,8 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate} from 'react-router-dom';
 import '../App.css';
 
 const Login = () => {
+  const navigate = useNavigate();
+    const handleLogin = (e) => {
+    e.preventDefault();
+    // Here you can add actual login validation later
+    navigate('/home');
+  };
   const cardStyle = {
     background: 'rgba(255, 255, 255, 0.1)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -30,7 +36,7 @@ const Login = () => {
   return (
     <div className="login-card" style={cardStyle}>
       <h2 className="welcome-msg">Welcome to Reclaim IT</h2>
-      <form>
+      <form onSubmit={handleLogin}>
         <input className='input-field' type="text" placeholder="Username" required />
         <input className='input-field' type="password" placeholder="Password" required />
         <button type="submit" style={buttonStyle}>Login</button>

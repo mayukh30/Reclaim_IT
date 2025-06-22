@@ -1,10 +1,18 @@
-
-
 import React from 'react'; 
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import '../App.css';
 
 const Register = () => {
+  const navigate = useNavigate();
+   const handleRegister = (e) => {
+    e.preventDefault();
+    // You can add validation or API calls here
+    navigate('/home');
+  };
+    const handleGoogleSignup = () => {
+    // Here you would integrate Google OAuth
+    navigate('/home');
+  };
   const cardStyle = {
     background: 'rgba(255, 255, 255, 0.1)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -49,13 +57,13 @@ const Register = () => {
   return (
     <div className="login-card" style={cardStyle}>
       <h2 className="welcome-msg">Create Your Account</h2>
-      <form>
+      <form onSubmit={handleRegister}>
         <input className='input-field' type="text" placeholder="Email ID" required />
         <input className='input-field' type="password" placeholder="Password" required />
         <button type="submit" style={buttonStyle}>Register</button>
       </form>
       <p className="signup-text">or</p>
-      <button style={googleButtonStyle}>
+      <button onClick={handleGoogleSignup} style={googleButtonStyle}>
         <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Google Icon" width="20" height="20" />
         Sign Up with Google
       </button>
