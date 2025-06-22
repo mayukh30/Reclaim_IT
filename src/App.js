@@ -4,6 +4,7 @@ import './App.css';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
+import ReportLostItem from './components/ReportLostItem';
 
 function App() {
   return (
@@ -35,11 +36,15 @@ function App() {
             <Register />
           </div>
         } />
-
+        
         {/* Home page has its own full layout */}
         <Route path="/home" element={<Home />} />
+
+        <Route path="/report-lost" element={<ReportLostItem />} />
+        
       </Routes>
     </Router>
+    
   );
 }
 

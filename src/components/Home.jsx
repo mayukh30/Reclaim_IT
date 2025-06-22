@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 const Home = () => {
+  const navigate=useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -94,7 +96,9 @@ const Home = () => {
 
         {/* Action Buttons */}
         <div className="home-action-buttons">
-          <button className="home-action-btn">Report Lost Item</button>
+            <button className="home-action-btn" onClick={() => navigate('/report-lost')}>
+    Report Lost Item
+  </button>
           <button className="home-action-btn">Report Found Item</button>
         </div>
 
