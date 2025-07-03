@@ -1,14 +1,46 @@
-import React from 'react';
-import { Link,useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
+import { supabase } from '../supabaseClient';
 
 const Login = () => {
   const navigate = useNavigate();
-    const handleLogin = (e) => {
+  const [form, setForm] = useState({ email: '', password: '' });
+
+  // Detect successful login (Google or Email)
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) navigate('/home');
+    };
+    checkSession();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        navigate('/home');
+      }
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, [navigate]);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Here you can add actual login validation later
-    navigate('/home');
+    const { error, data } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      navigate('/home');
+    }
   };
+
   const cardStyle = {
     background: 'rgba(255, 255, 255, 0.1)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -37,9 +69,9 @@ const Login = () => {
     <div className="login-card" style={cardStyle}>
       <h2 className="welcome-msg">Welcome to Reclaim IT</h2>
       <form onSubmit={handleLogin}>
-        <input className='input-field' type="text" placeholder="Username" required />
-        <input className='input-field' type="password" placeholder="Password" required />
-        <button type="submit" style={buttonStyle}>Login</button>
+        <input className='input-field' type="email" placeholder="Username" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+        <input className='input-field' type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+        <button type="submit" className="form-button" style={buttonStyle}>Login</button>
       </form>
       <p className="signup-text">
         Don't have an account? <Link to="/register" className="signup-link">Sign Up</Link>

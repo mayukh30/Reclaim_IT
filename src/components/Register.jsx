@@ -1,18 +1,53 @@
-import React from 'react'; 
-import { Link,useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
+import { supabase } from '../supabaseClient';
 
 const Register = () => {
   const navigate = useNavigate();
-   const handleRegister = (e) => {
+  const [form, setForm] = useState({ email: '', password: '' });
+
+  // Detect successful login or signup (Email or Google)
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) navigate('/home');
+    };
+    checkSession();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        navigate('/home');
+      }
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, [navigate]);
+
+  const handleRegister = async (e) => {
     e.preventDefault();
-    // You can add validation or API calls here
-    navigate('/home');
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      navigate('/home');
+    }
   };
-    const handleGoogleSignup = () => {
-    // Here you would integrate Google OAuth
-    navigate('/home');
+
+  const handleGoogleSignup = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+    if (error) alert(error.message);
   };
+
   const cardStyle = {
     background: 'rgba(255, 255, 255, 0.1)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -22,7 +57,7 @@ const Register = () => {
     boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
     textAlign: 'center',
     width: '400px',
-    color:'#fff'
+    color: '#fff'
   };
 
   const buttonStyle = {
@@ -58,8 +93,8 @@ const Register = () => {
     <div className="login-card" style={cardStyle}>
       <h2 className="welcome-msg">Create Your Account</h2>
       <form onSubmit={handleRegister}>
-        <input className='input-field' type="text" placeholder="Email ID" required />
-        <input className='input-field' type="password" placeholder="Password" required />
+        <input className='input-field' type="text" placeholder="Email ID" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+        <input className='input-field' type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
         <button type="submit" style={buttonStyle}>Register</button>
       </form>
       <p className="signup-text">or</p>

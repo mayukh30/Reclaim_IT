@@ -1,9 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
+import { supabase } from '../supabaseClient';
 
 const Home = () => {
+  const[user,setUser]=useState(null);
   const navigate=useNavigate();
+  
+  const handleLogout = async () => {
+  await supabase.auth.signOut();
+  localStorage.removeItem('user');
+  navigate('/');
+};
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate('/');
+      } else {
+        setUser(user);
+      }
+    };
+    fetchUser();
+  }, [navigate]);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -71,7 +91,7 @@ const Home = () => {
           <li style={sidebarItemStyle}><i className="fas fa-box"></i>{isSidebarOpen && ' My Found Posts'}</li>
           <li style={sidebarItemStyle}><i className="fas fa-handshake"></i>{isSidebarOpen && ' Claim Requests'}</li>
           <li style={sidebarItemStyle}><i className="fas fa-cog"></i>{isSidebarOpen && ' Settings'}</li>
-          <li style={sidebarItemStyle}><i className="fas fa-sign-out-alt"></i>{isSidebarOpen && ' Logout'}</li>
+          <li style={sidebarItemStyle} onClick={handleLogout}><i className="fas fa-sign-out-alt"></i>{isSidebarOpen && ' Logout'}</li>
         </ul>
       </aside>
 
@@ -79,7 +99,7 @@ const Home = () => {
       <main style={mainContentStyle}>
         {/* Top Bar */}
         <div style={topBarStyle}>
-          <h2>Welcome to Reclaim IT!</h2>
+          <h2>{user? `Hello !! ${user.email}`: 'Loading...'}</h2>
           <div className="profile-icon">
             <i className="fas fa-user-circle"></i>
           </div>
