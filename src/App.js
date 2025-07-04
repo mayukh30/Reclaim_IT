@@ -6,11 +6,12 @@ import Register from './components/Register';
 import Home from './components/Home';
 import ReportLostItem from './components/ReportLostItem';
 import ReportFoundItem from './components/ReportFoundItem';
-
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <Router>
+      <AuthProvider>
       <Routes>
         {/* Login & Register use the background layout */}
         <Route path="/" element={
@@ -45,6 +46,7 @@ function App() {
         <Route path="/report-found" element={<ReportFoundItem/>} />
         
       </Routes>
+      </AuthProvider>
     </Router>
     
   );

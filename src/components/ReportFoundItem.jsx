@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../App.css';
+import { supabase } from '../supabaseClient';
 
 const ReportFoundItem = () => {
   const [formData, setFormData] = useState({
@@ -8,23 +9,49 @@ const ReportFoundItem = () => {
     category: '',
     dateFound: '',
     location: '',
-    photo: null,
     contactInfo: ''
   });
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: files ? files[0] : value
+      [name]: value
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log('Found Item Report Submitted:', formData);
     // Handle form submission here (API call etc.)
-  };
+    const { error } = await supabase
+    .from('found_items')
+    .insert([
+      {
+        itemName: formData.itemName,
+        description: formData.description,
+        category: formData.category,
+        dateFound: formData.dateFound,
+        location: formData.location,
+        contactInfo: formData.contactInfo,
+      },
+    ]);
+
+  if (error) {
+    alert('Failed to submit found item: ' + error.message);
+  } else {
+    alert('Found item submitted successfully!');
+    setFormData({
+      itemName: '',
+      description: '',
+      category: '',
+      dateFound: '',
+      location: '',
+      contactInfo: ''
+    });
+  }
+};
+
 
   const formCardStyle = {
     background: 'rgba(255, 255, 255, 0.1)',
@@ -102,13 +129,6 @@ const ReportFoundItem = () => {
           required
         />
         <input
-          type="file"
-          name="photo"
-          accept="image/*"
-          onChange={handleChange}
-          className="input-field"
-        />
-        <input
           type="text"
           name="contactInfo"
           placeholder="Contact Information"
@@ -117,7 +137,7 @@ const ReportFoundItem = () => {
           className="input-field"
           required
         />
-        <button type="submit" style={buttonStyle}>Submit Found Item Report</button>
+        <button type="submit" style={buttonStyle} onClick={handleSubmit}>Submit Found Item Report</button>
       </form>
     </div>
   );
