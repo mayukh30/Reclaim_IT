@@ -445,11 +445,15 @@ textarea.input-field {
 }
 
 
-.found-items-wrapper {
+
+  .found-items-wrapper {
   padding: 30px;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Dark gradient */
+  background: url('./background.png') no-repeat center center fixed;
+  background-size: cover;
   min-height: 100vh;
+  backdrop-filter: blur(10px);
 }
+
 
 .found-items-container {
   display: flex;
@@ -495,4 +499,45 @@ textarea.input-field {
   text-align: center;
   font-size: 28px;
   margin-bottom: 20px;
+}
+
+
+/* missing items page */
+.missing-items-wrapper {
+  padding: 30px;
+  background: url('./background.png') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.missing-items-title {
+  color: white;
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #ffffff;
+}
+
+.missing-items-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.missing-item-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  width: 300px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease;
+}
+
+.missing-item-card:hover {
+  transform: scale(1.03);
 }
