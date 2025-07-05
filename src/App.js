@@ -7,6 +7,7 @@ import Home from './components/Home';
 import ReportLostItem from './components/ReportLostItem';
 import ReportFoundItem from './components/ReportFoundItem';
 import { AuthProvider } from './context/AuthContext';
+import FoundItems from './components/FoundItems'
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
 
         <Route path="/report-lost" element={<ReportLostItem />} />
         <Route path="/report-found" element={<ReportFoundItem/>} />
+        <Route path="found-items" element={<FoundItems /> }/>
         
       </Routes>
       </AuthProvider>

@@ -87,8 +87,9 @@ const Home = () => {
           <i className="fas fa-bars"></i>
         </button>
         <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li style={sidebarItemStyle}><i className="fas fa-search"></i>{isSidebarOpen && ' My Lost Posts'}</li>
-          <li style={sidebarItemStyle}><i className="fas fa-box"></i>{isSidebarOpen && ' My Found Posts'}</li>
+          
+          <li style={sidebarItemStyle} onClick={() => navigate('/lost-items')}> <i className="fas fa-search"></i>{isSidebarOpen && ' Lost Items'}</li>
+          <li style={sidebarItemStyle} onClick={() => navigate('/found-items')}><i className="fas fa-box"></i> {isSidebarOpen && ' Found Items'}</li>
           <li style={sidebarItemStyle}><i className="fas fa-handshake"></i>{isSidebarOpen && ' Claim Requests'}</li>
           <li style={sidebarItemStyle}><i className="fas fa-cog"></i>{isSidebarOpen && ' Settings'}</li>
           <li style={sidebarItemStyle} onClick={handleLogout}><i className="fas fa-sign-out-alt"></i>{isSidebarOpen && ' Logout'}</li>

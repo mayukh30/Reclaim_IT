@@ -444,3 +444,55 @@ textarea.input-field {
     resize: none;
 }
 
+
+.found-items-wrapper {
+  padding: 30px;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Dark gradient */
+  min-height: 100vh;
+}
+
+.found-items-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.found-item-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  width: 300px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease;
+}
+
+.found-item-card:hover {
+  transform: scale(1.03);
+}
+
+.claim-btn {
+  margin-top: 12px;
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.claim-btn:hover {
+  background: #005dc1;
+}
+
+.found-items-title {
+  color: white;
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
