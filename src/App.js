@@ -8,6 +8,9 @@ import ReportLostItem from './components/ReportLostItem';
 import ReportFoundItem from './components/ReportFoundItem';
 import { AuthProvider } from './context/AuthContext';
 import FoundItems from './components/FoundItems'
+import MissingItems from './components/MissingItems';
+import ClaimRequests from './components/ClaimRequests';
+
 
 function App() {
   return (
@@ -46,6 +49,8 @@ function App() {
         <Route path="/report-lost" element={<ReportLostItem />} />
         <Route path="/report-found" element={<ReportFoundItem/>} />
         <Route path="found-items" element={<FoundItems /> }/>
+        <Route path="/lost-items" element={<MissingItems />} />
+        <Route path="/claim-requests" element={<ClaimRequests />} />
         
       </Routes>
       </AuthProvider>

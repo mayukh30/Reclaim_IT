@@ -541,3 +541,66 @@ textarea.input-field {
 .missing-item-card:hover {
   transform: scale(1.03);
 }
+
+/* notification */
+.notification-popup {
+  position: fixed;
+  top: 70px;
+  right: 30px;
+  width: 350px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 1000;
+  color: #fff;
+}
+
+.notification-popup-inner {
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.notification-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 20px;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.claim-requests-wrapper { 
+    color: white;
+ padding: 30px;
+  background: url('./background.png') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh; }
+
+.xyzh2{
+    margin-left: 575px;
+}
+.claim-request-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease;
+  margin-left: 500px;
+}

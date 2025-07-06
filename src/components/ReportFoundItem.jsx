@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { supabase } from '../supabaseClient';
 
@@ -12,46 +12,62 @@ const ReportFoundItem = () => {
     contactInfo: ''
   });
 
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    fetchUser();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value
-    });
+    }));
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Found Item Report Submitted:', formData);
-    // Handle form submission here (API call etc.)
+
+    if (!user) {
+      alert('Please log in first to report a found item.');
+      return;
+    }
+
     const { error } = await supabase
-    .from('found_items')
-    .insert([
-      {
-        itemName: formData.itemName,
-        description: formData.description,
-        category: formData.category,
-        dateFound: formData.dateFound,
-        location: formData.location,
-        contactInfo: formData.contactInfo,
-      },
-    ]);
+      .from('found_items')
+      .insert([
+        {
+          item_name: formData.itemName,
+          description: formData.description,
+          category: formData.category,
+          date_found: formData.dateFound,
+          location: formData.location,
+          contactInfo: formData.contactInfo,
+          reporter_id: user.id, // ✅ Save reporter's ID
+          is_claimed: false     // optional default value
+        }
+      ]);
 
-  if (error) {
-    alert('Failed to submit found item: ' + error.message);
-  } else {
-    alert('Found item submitted successfully!');
-    setFormData({
-      itemName: '',
-      description: '',
-      category: '',
-      dateFound: '',
-      location: '',
-      contactInfo: ''
-    });
-  }
-};
-
+    if (error) {
+      alert('Failed to submit found item: ' + error.message);
+    } else {
+      alert('Found item submitted successfully!');
+      setFormData({
+        itemName: '',
+        description: '',
+        category: '',
+        dateFound: '',
+        location: '',
+        contactInfo: ''
+      });
+    }
+  };
 
   const formCardStyle = {
     background: 'rgba(255, 255, 255, 0.1)',
@@ -137,7 +153,7 @@ const ReportFoundItem = () => {
           className="input-field"
           required
         />
-        <button type="submit" style={buttonStyle} onClick={handleSubmit}>Submit Found Item Report</button>
+        <button type="submit" style={buttonStyle}>Submit Found Item Report</button>
       </form>
     </div>
   );

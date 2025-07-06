@@ -2,15 +2,21 @@ import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import { supabase } from '../supabaseClient';
+import NotificationPopup from './NotificationPopup';
 
 const Home = () => {
   const[user,setUser]=useState(null);
+  const [showNotifications,setShowNotifications]=useState(false);
   const navigate=useNavigate();
   
   const handleLogout = async () => {
   await supabase.auth.signOut();
   localStorage.removeItem('user');
   navigate('/');
+};
+
+const toggleNotifications=()=>{
+  setShowNotifications(!showNotifications);
 };
 
   useEffect(() => {
@@ -63,7 +69,7 @@ const Home = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
     backdropFilter: 'blur(8px)',
-    padding: '10px 20px',
+    padding:'10px 20px',
     borderRadius: '12px',
     background: 'rgba(255, 255, 255, 0.1)',
     marginBottom: '20px'
@@ -90,7 +96,7 @@ const Home = () => {
           
           <li style={sidebarItemStyle} onClick={() => navigate('/lost-items')}> <i className="fas fa-search"></i>{isSidebarOpen && ' Lost Items'}</li>
           <li style={sidebarItemStyle} onClick={() => navigate('/found-items')}><i className="fas fa-box"></i> {isSidebarOpen && ' Found Items'}</li>
-          <li style={sidebarItemStyle}><i className="fas fa-handshake"></i>{isSidebarOpen && ' Claim Requests'}</li>
+          <li style={sidebarItemStyle} onClick={() => navigate('/claim-requests')}><i className="fas fa-handshake"></i>{isSidebarOpen && ' Claim Requests'}</li>
           <li style={sidebarItemStyle}><i className="fas fa-cog"></i>{isSidebarOpen && ' Settings'}</li>
           <li style={sidebarItemStyle} onClick={handleLogout}><i className="fas fa-sign-out-alt"></i>{isSidebarOpen && ' Logout'}</li>
         </ul>
@@ -106,13 +112,16 @@ const Home = () => {
           </div>
         </div>
 
+        {showNotifications && <NotificationPopup onClose={toggleNotifications} />}
+
+
         {/* Options Panel */}
         <div className="home-options-panel">
           <input className="home-search-bar" type="text" placeholder="🔍 Search Lost/Found Items..." />
           <button style={buttonStyle}>Filters</button>
           <button style={buttonStyle}>Report Fraud</button>
           <button style={buttonStyle}>Messages</button>
-          <button style={buttonStyle}>Notifications</button>
+          <button style={buttonStyle} onClick={toggleNotifications}>Notifications</button>
         </div>
 
         {/* Action Buttons */}
