@@ -4,8 +4,31 @@ import '../App.css';
 import { supabase } from '../supabaseClient';
 import NotificationPopup from './NotificationPopup';
 
+function timeSince(dateString){
+  const now=new Date();
+  const past=new Date(dateString);
+  const seconds=Math.floor((now-past)/1000);
+  const intervals=[
+    { label: 'year', value: 31536000 },
+    { label: 'month', value: 2592000 },
+    { label: 'day', value: 86400 },
+    { label: 'hour', value: 3600 },
+    { label: 'minute', value: 60 },
+    { label: 'second', value: 1 }
+  ];
+
+  for(const interval of intervals){
+    const count=Math.floor(seconds/interval.value);
+    if (count>=1) return `${interval.label}${count>1 ? 's':''} ago`;
+  }
+  return "just now";
+}
+
+
 const Home = () => {
   const[user,setUser]=useState(null);
+  const [lostItems, setLostItems] = useState([]);
+  const [foundItems, setFoundItems] = useState([]);
   const [showNotifications,setShowNotifications]=useState(false);
   const navigate=useNavigate();
   
@@ -20,6 +43,7 @@ const toggleNotifications=()=>{
 };
 
   useEffect(() => {
+    fetchItems();
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -30,7 +54,29 @@ const toggleNotifications=()=>{
     };
     fetchUser();
   }, [navigate]);
+
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+  const fetchItems=async()=>{
+    const { data: lostData, error: lostError } = await supabase
+      .from('lost_items')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(4);
+
+    const { data: foundData, error: foundError } = await supabase
+      .from('found_items')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(4);
+
+    if (!lostError && !foundError) {
+      setLostItems(lostData);
+      setFoundItems(foundData);
+    } else {
+      console.error('Error fetching items:', lostError || foundError);
+    }
+  };
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -97,7 +143,6 @@ const toggleNotifications=()=>{
           <li style={sidebarItemStyle} onClick={() => navigate('/lost-items')}> <i className="fas fa-search"></i>{isSidebarOpen && ' Lost Items'}</li>
           <li style={sidebarItemStyle} onClick={() => navigate('/found-items')}><i className="fas fa-box"></i> {isSidebarOpen && ' Found Items'}</li>
           <li style={sidebarItemStyle} onClick={() => navigate('/claim-requests')}><i className="fas fa-handshake"></i>{isSidebarOpen && ' Claim Requests'}</li>
-          <li style={sidebarItemStyle}><i className="fas fa-cog"></i>{isSidebarOpen && ' Settings'}</li>
           <li style={sidebarItemStyle} onClick={handleLogout}><i className="fas fa-sign-out-alt"></i>{isSidebarOpen && ' Logout'}</li>
         </ul>
       </aside>
@@ -134,7 +179,7 @@ const toggleNotifications=()=>{
 </button>
 </div>
         {/* Latest Lost & Found Slider */}
-        <div className="home-slider-section">
+        {/* <div className="home-slider-section">
           <h3>Latest Lost & Found</h3>
           <div className="home-card-slider">
             <div className="home-item-card">
@@ -153,7 +198,34 @@ const toggleNotifications=()=>{
               <p>Location: Cafeteria</p>
             </div>
           </div>
+        </div> */}
+
+        <div className="slider-section">
+          <h3 style={{ color: 'white' }}>Latest Lost Items</h3>
+          <div className="card-slider">
+            {lostItems.map(item => (
+              <div className="item-card" key={item.id}>
+                <h4>{item.itemName}</h4>
+                <p>{item.category}</p>
+                <p style={{ fontSize: '12px', color: '#ccc' }}>{timeSince(item.created_at)}</p>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <div className="slider-section">
+          <h3 style={{ color: 'white' }}>Latest Found Items</h3>
+          <div className="card-slider">
+            {foundItems.map(item => (
+              <div className="item-card" key={item.id}>
+                <h4>{item.item_name}</h4>
+                <p>{item.category}</p>
+                <p style={{ fontSize: '12px', color: '#ccc' }}>{timeSince(item.created_at)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
 
         {/* Quick Stats */}
         <div className="home-stats-section">
