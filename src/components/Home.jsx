@@ -8,6 +8,7 @@ function timeSince(dateString){
   const now=new Date();
   const past=new Date(dateString);
   const seconds=Math.floor((now-past)/1000);
+  console.log(`Seconds since ${dateString}:`, seconds);
   const intervals=[
     { label: 'year', value: 31536000 },
     { label: 'month', value: 2592000 },
@@ -19,8 +20,10 @@ function timeSince(dateString){
 
   for(const interval of intervals){
     const count=Math.floor(seconds/interval.value);
-    if (count>=1) return `${interval.label}${count>1 ? 's':''} ago`;
+    if (count>=1) {
+      return `${count} ${interval.label}${count>1 ? 's':''} ago`;
   }
+}
   return "just now";
 }
 
@@ -172,33 +175,12 @@ const toggleNotifications=()=>{
         {/* Action Buttons */}
         <div className="home-action-buttons">
             <button className="home-action-btn" onClick={() => navigate('/report-lost')}>
-    Report Lost Item
-  </button>
+               Report Lost Item
+            </button>
           <button className="home-action-btn" onClick={() => navigate('/report-found')}>
-  Report Found Item
-</button>
-</div>
-        {/* Latest Lost & Found Slider */}
-        {/* <div className="home-slider-section">
-          <h3>Latest Lost & Found</h3>
-          <div className="home-card-slider">
-            <div className="home-item-card">
-              <img src="https://via.placeholder.com/100" alt="Item" />
-              <p>Lost: Wallet</p>
-              <p>Location: Campus</p>
-            </div>
-            <div className="home-item-card">
-              <img src="https://via.placeholder.com/100" alt="Item" />
-              <p>Found: Keys</p>
-              <p>Location: Library</p>
-            </div>
-            <div className="home-item-card">
-              <img src="https://via.placeholder.com/100" alt="Item" />
-              <p>Lost: Phone</p>
-              <p>Location: Cafeteria</p>
-            </div>
-          </div>
-        </div> */}
+               Report Found Item
+          </button>
+        </div>
 
         <div className="slider-section">
           <h3 style={{ color: 'white' }}>Latest Lost Items</h3>
@@ -208,6 +190,7 @@ const toggleNotifications=()=>{
                 <h4>{item.itemName}</h4>
                 <p>{item.category}</p>
                 <p style={{ fontSize: '12px', color: '#ccc' }}>{timeSince(item.created_at)}</p>
+
               </div>
             ))}
           </div>
