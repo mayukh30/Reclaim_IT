@@ -7,7 +7,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
 
-  // Detect successful login (Google or Email)
   useEffect(() => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -65,14 +64,31 @@ const Login = () => {
     cursor: 'pointer'
   };
 
+  const imageStyle = {
+    width: '100px',
+    height: '100px',
+    borderRadius: '50%',
+    objectFit: 'cover',
+    border: '2px solid rgba(255, 255, 255, 0.5)',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.4)',
+    marginBottom: '20px'
+  };
+
+
   return (
     <div className="login-card" style={cardStyle}>
-      <h2 className="welcome-msg">Welcome to Reclaim IT</h2>
+      {/* Circular Image */}
+      <img src={require('../assets/me.jpg')} alt="Profile" style={imageStyle} />
+
+      {/* Reclaim IT Title */}
+      <div className='welcome-msg'> Welcome Back !!</div>
+
       <form onSubmit={handleLogin}>
-        <input className='input-field' type="email" placeholder="Username" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+        <input className='input-field' type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
         <input className='input-field' type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
         <button type="submit" className="form-button" style={buttonStyle}>Login</button>
       </form>
+
       <p className="signup-text">
         Don't have an account? <Link to="/register" className="signup-link">Sign Up</Link>
       </p>

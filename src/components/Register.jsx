@@ -89,8 +89,26 @@ const Register = () => {
     transition: 'box-shadow 0.3s ease'
   };
 
+    const imageStyle = {
+    width: '100px',
+    height: '100px',
+    borderRadius: '50%',
+    objectFit: 'cover',
+    border: '2px solid rgba(255, 255, 255, 0.5)',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.4)',
+    marginBottom: '20px'
+  };
+
+  // const titleStyle = {
+  //   fontSize: '28px',
+  //   fontWeight: 'bold',
+  //   marginBottom: '20px',
+  //   color: '#ffffff'
+  // };
+
   return (
     <div className="login-card" style={cardStyle}>
+      <img src={require('../assets/me.jpg')} alt="Profile" style={imageStyle} />
       <h2 className="welcome-msg">Create Your Account</h2>
       <form onSubmit={handleRegister}>
         <input className='input-field' type="text" placeholder="Email ID" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />

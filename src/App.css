@@ -604,3 +604,92 @@ textarea.input-field {
   transition: transform 0.3s ease;
   margin-left: 500px;
 }
+
+/*   about me page  */
+
+.about-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px;
+  background: inherit;
+}
+
+.about-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 50px;
+  max-width: 600px;
+  margin-right: 240px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  text-align: center;
+  color: white;
+}
+
+.profile-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.yua{
+    
+    width: 300px;
+}
+.about-heading {
+  font-size: 35px;
+  margin-bottom: 20px;
+  color: #00c6ff;
+  text-shadow: 0 0 8px rgba(0, 198, 255, 0.5);
+}
+
+.about-paragraph {
+  font-size: 20px;
+  line-height: 1.6;
+  color: #e0e0e0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.hobby-list {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 18px;
+  color: #d1f3ff;
+  text-shadow: 0 0 6px #00c6ff, 0 0 12px #00c6ff;
+  animation: glowPulse 2.5s infinite ease-in-out;
+}
+@keyframes glowPulse {
+  0% {
+    text-shadow: 0 0 6px #00c6ff, 0 0 12px #00c6ff;
+  }
+  50% {
+    text-shadow: 0 0 10px #00eaff, 0 0 20px #00eaff;
+  }
+  100% {
+    text-shadow: 0 0 6px #00c6ff, 0 0 12px #00c6ff;
+  }
+}
+
+/* Smooth fade-in animation */
+.animated-fade-in {
+  animation: fadeInUp 1s ease-out both;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

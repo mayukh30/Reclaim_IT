@@ -10,6 +10,7 @@ import { AuthProvider } from './context/AuthContext';
 import FoundItems from './components/FoundItems'
 import MissingItems from './components/MissingItems';
 import ClaimRequests from './components/ClaimRequests';
+import About from './components/About';
 
 
 function App() {
@@ -22,8 +23,8 @@ function App() {
           <div className="app">
             <div className="left-panel">
               <div className="top-links">
-                <a href="#">About Us</a>
-                <a href="#">Contact Us</a>
+                <a href="/about">About Me</a>
+                <a href="#">Contact Me</a>
               </div>
               <h1 className="site-title">Reclaim IT</h1>
             </div>
@@ -51,7 +52,7 @@ function App() {
         <Route path="found-items" element={<FoundItems /> }/>
         <Route path="/lost-items" element={<MissingItems />} />
         <Route path="/claim-requests" element={<ClaimRequests />} />
-        
+        <Route path="/about" element={<About />} />
       </Routes>
       </AuthProvider>
     </Router>
