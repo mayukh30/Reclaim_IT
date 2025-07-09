@@ -153,6 +153,7 @@ body {
     border-radius: 8px;
 }
 
+
 /* Main Content */
 .main-content {
     flex: 1;
@@ -185,6 +186,7 @@ body {
     outline: none;
     background: rgba(255,255,255,0.8);
     color: #000;
+    
 }
 .option-btn {
     padding: 10px 15px;
@@ -693,3 +695,24 @@ textarea.input-field {
     transform: translateY(0);
   }
 }
+
+/* contact me page */
+
+.contact-links a.glow-link {
+  color: #00c6ff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  text-shadow: 0 0 8px #00c6ff;
+  transition: all 0.3s ease;
+}
+
+.oila{
+  font-size: 23px;
+}
+
+.contact-links a.glow-link:hover {
+  text-shadow: 0 0 16px #00c6ff, 0 0 20px #00c6ff;
+}
+
+

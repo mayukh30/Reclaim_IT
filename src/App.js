@@ -11,6 +11,7 @@ import FoundItems from './components/FoundItems'
 import MissingItems from './components/MissingItems';
 import ClaimRequests from './components/ClaimRequests';
 import About from './components/About';
+import ContactMe from './components/ContactMe';
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
             <div className="left-panel">
               <div className="top-links">
                 <a href="/about">About Me</a>
-                <a href="#">Contact Me</a>
+                <a href="/contact">Contact Me</a>
               </div>
               <h1 className="site-title">Reclaim IT</h1>
             </div>
@@ -53,6 +54,7 @@ function App() {
         <Route path="/lost-items" element={<MissingItems />} />
         <Route path="/claim-requests" element={<ClaimRequests />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<ContactMe />} />
       </Routes>
       </AuthProvider>
     </Router>

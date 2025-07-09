@@ -22,7 +22,7 @@ const About = () => {
           Beyond coding, I enjoy:
           <br />
           <span className="hobby-list">
-            🏏 Cricket &nbsp;🕺 Dance &nbsp;🏓 Table Tennis &nbsp;🥋 Kickboxing & Karate
+            🏏 Cricket &nbsp;npm start🕺 Dance &nbsp;🏓 Table Tennis &nbsp;🥋 Kickboxing & Karate
             <br />
             🎬 Stunts &nbsp;🏀 Basketball &nbsp;🏸 Badminton &nbsp;⚽ Football
           </span>

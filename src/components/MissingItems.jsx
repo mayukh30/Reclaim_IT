@@ -22,22 +22,6 @@ const MissingItems = () => {
     fetchLostItems();
   }, []);
 
-  const handleClaim = async (itemId) => {
-    const { data, error } = await supabase
-      .from('lost_items')
-      .update({ claimed: true })
-      .eq('id', itemId);
-
-    if (error) {
-      console.error('Failed to claim item:', error);
-    } else {
-      setLostItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === itemId ? { ...item, claimed: true } : item
-        )
-      );
-    }
-  };
 
   return (
     <div className="missing-items-wrapper">
@@ -54,13 +38,6 @@ const MissingItems = () => {
               <p><strong>Date Lost:</strong> {item.dateLost}</p>
               <p><strong>Location:</strong> {item.location}</p>
               <p><strong>Contact Info:</strong> {item.contactInfo}</p>
-              <button
-                className="claim-btn"
-                onClick={() => handleClaim(item.id)}
-                disabled={item.claimed}
-              >
-                {item.claimed ? 'Claimed' : 'Claim'}
-              </button>
             </div>
           ))
         )}

@@ -130,7 +130,7 @@ const ReportLostItem = () => {
         <input
           type="text"
           name="contactInfo"
-          placeholder="Contact Information"
+          placeholder="Email ID"
           value={formData.contactInfo}
           onChange={handleChange}
           className="input-field"

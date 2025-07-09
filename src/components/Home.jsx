@@ -130,7 +130,7 @@ const Home = () => {
   };
 
   const buttonStyle = {
-    padding: '20px 25px',
+    padding: '20px 40px',
     borderRadius: '10px',
     background: 'linear-gradient(45deg, #00c6ff, #0072ff)',
     border: 'none',
@@ -151,6 +151,7 @@ const Home = () => {
           <li style={sidebarItemStyle} onClick={() => navigate('/found-items')}><i className="fas fa-box"></i>{isSidebarOpen && ' Found Items'}</li>
           <li style={sidebarItemStyle} onClick={() => navigate('/claim-requests')}><i className="fas fa-handshake"></i>{isSidebarOpen && ' Claim Requests'}</li>
           <li style={sidebarItemStyle} onClick={() => navigate('/about')}><i className="fas fa-user"></i>{isSidebarOpen && ' About Me'}</li>
+          <li style={sidebarItemStyle} onClick={() => navigate('/contact')}><i className="fas fa-envelope"></i>{isSidebarOpen && ' Contact Me'}</li>
           <li style={sidebarItemStyle} onClick={handleLogout}><i className="fas fa-sign-out-alt"></i>{isSidebarOpen && ' Logout'}</li>
         </ul>
       </aside>
