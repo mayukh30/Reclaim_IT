@@ -30,6 +30,9 @@ const Home = () => {
   const [user, setUser] = useState(null);
   const [lostItems, setLostItems] = useState([]);
   const [foundItems, setFoundItems] = useState([]);
+  const [filteredLostItems, setFilteredLostItems] = useState([]);
+  const [filteredFoundItems, setFilteredFoundItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [totalReturned, setTotalReturned] = useState(0);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -62,17 +65,22 @@ const Home = () => {
     const { data: lostData } = await supabase
       .from('lost_items')
       .select('*')
-      .order('created_at', { ascending: false })
-      .limit(4);
+      .order('created_at', { ascending: false });
 
     const { data: foundData } = await supabase
       .from('found_items')
       .select('*')
-      .order('created_at', { ascending: false })
-      .limit(4);
+      .order('created_at', { ascending: false });
 
-    if (lostData) setLostItems(lostData);
-    if (foundData) setFoundItems(foundData);
+    if (lostData) {
+      setLostItems(lostData);
+      setFilteredLostItems(lostData);
+    }
+
+    if (foundData) {
+      setFoundItems(foundData);
+      setFilteredFoundItems(foundData);
+    }
   };
 
   const fetchUserSession = async () => {
@@ -89,6 +97,17 @@ const Home = () => {
     fetchItems();
     fetchTotalReturned();
   }, []);
+
+  useEffect(() => {
+    const filteredLost = lostItems.filter(item =>
+      item.itemName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    const filteredFound = foundItems.filter(item =>
+      item.item_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredLostItems(filteredLost);
+    setFilteredFoundItems(filteredFound);
+  }, [searchQuery, lostItems, foundItems]);
 
   const sidebarStyle = {
     background: 'rgba(255, 255, 255, 0.2)',
@@ -168,7 +187,13 @@ const Home = () => {
         {showNotifications && <NotificationPopup onClose={toggleNotifications} />}
 
         <div className="home-options-panel">
-          <input className="home-search-bar" type="text" placeholder="🔍 Search Lost/Found Items..." />
+          <input
+            className="home-search-bar"
+            type="text"
+            placeholder="🔍 Search Lost/Found Items..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <button style={buttonStyle} onClick={() => navigate('/about')}>About Me</button>
           <button style={buttonStyle} onClick={toggleNotifications}>Notifications</button>
         </div>
@@ -181,7 +206,7 @@ const Home = () => {
         <div className="slider-section">
           <h3 style={{ color: 'white' }}>Latest Lost Items</h3>
           <div className="card-slider">
-            {lostItems.map(item => (
+            {filteredLostItems.map(item => (
               <div className="item-card" key={item.id}>
                 <h4>{item.itemName}</h4>
                 <p>{item.category}</p>
@@ -194,7 +219,7 @@ const Home = () => {
         <div className="slider-section">
           <h3 style={{ color: 'white' }}>Latest Found Items</h3>
           <div className="card-slider">
-            {foundItems.map(item => (
+            {filteredFoundItems.map(item => (
               <div className="item-card" key={item.id}>
                 <h4>{item.item_name}</h4>
                 <p>{item.category}</p>
@@ -211,7 +236,7 @@ const Home = () => {
           </div>
           <div className="home-stat-card">
             <h4>Total Found Items</h4>
-            <p>123</p>
+            <p>{foundItems.length}</p>
           </div>
         </div>
       </main>
